@@ -2,7 +2,7 @@
 
 [English](#english) · [Русский](#русский)
 
-> Stable download: `0.1.0`. Development branch: `0.2.0` with experimental TikTok support. YouTube and TikTok can change their interfaces without notice, so detection may temporarily stop working after an app update.
+> Stable download: `0.1.0`. Public beta: `0.2.0-beta.2` with experimental TikTok support. YouTube and TikTok can change their interfaces without notice, so detection may temporarily stop working after an app update.
 
 ## English
 
@@ -12,9 +12,11 @@ AutoSkip automatically activates YouTube's own visible **Skip** button. It uses 
 
 **[Download the latest APK](https://github.com/kyk-byte/autoskip-android/releases/latest/download/AutoSkip-latest.apk)**
 
+**[Download the TikTok beta](https://github.com/kyk-byte/autoskip-android/releases/download/v0.2.0-beta.2/AutoSkip-0.2.0-beta.2.apk)**
+
 Alternative: open [all releases](https://github.com/kyk-byte/autoskip-android/releases) and download the APK attached to the newest version.
 
-The early build is signed with a debug key. Android, your browser, or Play Protect may warn about an app installed outside Google Play. Download only from this repository. If Chrome blocks the file, open **Downloads**, select the APK, and confirm **Download anyway**. Installation may also require **Settings → Install unknown apps → Allow from this source** for your browser or file manager.
+Releases starting with `0.2.0-beta.2` use one persistent release certificate, so future versions can update normally. Android, your browser, or Play Protect may still warn about an app installed outside Google Play. Download only from this repository. If Chrome blocks the file, open **Downloads**, select the APK, and confirm **Download anyway**. Installation may also require **Settings → Install unknown apps → Allow from this source** for your browser or file manager.
 
 ### Compatibility
 
@@ -31,9 +33,10 @@ The early build is signed with a debug key. Android, your browser, or Play Prote
 3. Install and open AutoSkip.
 4. Tap **Open settings**.
 5. Open **Installed apps/services** and select **AutoSkip for YouTube**.
-6. Read Android's warning, then enable the service.
-7. Return to AutoSkip and enable its main switch.
-8. Open YouTube. AutoSkip will act only when YouTube exposes an available native Skip control.
+6. If Android says the setting is restricted, open AutoSkip's system **App info**, use the top-right menu or warning banner, and choose **Allow restricted settings**. This is an Android protection for sideloaded accessibility apps and cannot be granted silently by AutoSkip.
+7. Read Android's warning, then enable the service.
+8. Return to AutoSkip and enable its main switch.
+9. Enable YouTube and, in the beta, TikTok separately.
 
 Some Android vendors restrict background services. If AutoSkip stops after leaving the app, allow background activity and remove battery optimization for AutoSkip in system settings.
 
@@ -58,9 +61,11 @@ AutoSkip автоматически нажимает штатную видиму
 
 **[Скачать последнюю версию APK](https://github.com/kyk-byte/autoskip-android/releases/latest/download/AutoSkip-latest.apk)**
 
+**[Скачать beta с поддержкой TikTok](https://github.com/kyk-byte/autoskip-android/releases/download/v0.2.0-beta.2/AutoSkip-0.2.0-beta.2.apk)**
+
 Альтернативный вариант: откройте [все релизы](https://github.com/kyk-byte/autoskip-android/releases) и скачайте APK из самой новой версии.
 
-Ранняя сборка подписана отладочным ключом. Android, браузер или Play Protect могут предупредить, что приложение устанавливается не из Google Play. Скачивайте APK только из этого репозитория. Если Chrome блокирует файл, откройте **Загрузки**, выберите APK и подтвердите **Всё равно скачать**. Для установки также может потребоваться открыть **Настройки → Установка неизвестных приложений** и разрешить установку браузеру или файловому менеджеру.
+Начиная с `0.2.0-beta.2`, релизы подписываются одним постоянным сертификатом, поэтому следующие версии смогут обновляться поверх установленной. Android, браузер или Play Protect всё равно могут предупредить, что приложение устанавливается не из Google Play. Скачивайте APK только из этого репозитория. Если Chrome блокирует файл, откройте **Загрузки**, выберите APK и подтвердите **Всё равно скачать**. Для установки также может потребоваться открыть **Настройки → Установка неизвестных приложений** и разрешить установку браузеру или файловому менеджеру.
 
 ### Совместимость
 
@@ -77,15 +82,16 @@ AutoSkip автоматически нажимает штатную видиму
 3. Установите и запустите AutoSkip.
 4. Нажмите **«Открыть настройки»**.
 5. Откройте список установленных приложений/служб и выберите **«AutoSkip для YouTube»**.
-6. Прочитайте системное предупреждение и включите службу.
-7. Вернитесь в AutoSkip и включите главный переключатель.
-8. Откройте YouTube. AutoSkip сработает только после появления доступной штатной кнопки пропуска.
+6. Если Android пишет, что настройка ограничена, откройте системную страницу **«О приложении»** AutoSkip, нажмите меню справа сверху или красное предупреждение и выберите **«Разрешить ограниченные настройки» / «Удалить запрет»**. Это защита Android для Accessibility-приложений, установленных APK-файлом; AutoSkip не может выдать это разрешение сам себе.
+7. Прочитайте системное предупреждение и включите службу.
+8. Вернитесь в AutoSkip и включите главный переключатель.
+9. Отдельно включите YouTube и, в beta-версии, TikTok.
 
 Некоторые оболочки Android ограничивают фоновые службы. Если AutoSkip останавливается после выхода из приложения, разрешите фоновую работу и отключите оптимизацию батареи для AutoSkip в системных настройках.
 
 ### Приватность и ограничения
 
-- Следит только за выбранными пакетами YouTube.
+- Следит только за выбранными пакетами YouTube и TikTok.
 - Распознаёт русские и английские подписи кнопки пропуска.
 - Проверяет видимость, активность и кликабельность элемента.
 - Хранит настройки и статистику только на устройстве.
@@ -114,8 +120,8 @@ Every push to `main` runs tests and stores an APK artifact. A tag such as `v0.2.
 Version is configured in `app/build.gradle`. Increase both values before the next release:
 
 ```groovy
-versionCode 2
-versionName "0.2.0"
+versionCode 3
+versionName "0.2.0-beta.2"
 ```
 
 ## License / Лицензия

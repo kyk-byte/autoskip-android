@@ -9,3 +9,4 @@ work/classes/
 captures/
 .externalNativeBuild/
 .cxx/
+.signing/
