@@ -39,16 +39,19 @@ jobs:
         run: |
           VERSION=$(grep -oP 'versionName\s+"\K[^"]+' app/build.gradle)
           cp app/build/outputs/apk/debug/app-debug.apk "AutoSkip-${VERSION}-debug.apk"
+          cp app/build/outputs/apk/debug/app-debug.apk "AutoSkip-latest.apk"
           echo "APK_NAME=AutoSkip-${VERSION}-debug.apk" >> "$GITHUB_ENV"
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
           name: autoskip-apk
-          path: ${{ env.APK_NAME }}
+          path: |
+            ${{ env.APK_NAME }}
+            AutoSkip-latest.apk
 
       - name: Publish tagged release
         if: startsWith(github.ref, 'refs/tags/v')
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh release create "${GITHUB_REF_NAME}" "${APK_NAME}" --generate-notes --title "AutoSkip ${GITHUB_REF_NAME}"
+        run: gh release create "${GITHUB_REF_NAME}" "${APK_NAME}" "AutoSkip-latest.apk" --generate-notes --title "AutoSkip ${GITHUB_REF_NAME}"
