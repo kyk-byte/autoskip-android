@@ -126,6 +126,7 @@ public final class MainActivity extends AppCompatActivity
         int delayMs = AppPreferences.detectionDelayMs(preferences);
         binding.delaySlider.setValue(delayMs);
         binding.delayValue.setText(getString(R.string.delay_value_seconds, delayMs / 1000f));
+        binding.versionText.setText(getString(R.string.version_label, BuildConfig.VERSION_NAME));
 
         renderServiceStatus();
         renderStats();

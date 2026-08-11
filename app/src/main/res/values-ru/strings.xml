@@ -37,9 +37,9 @@
     <string name="duration_seconds">%1$d с</string>
 
     <string name="privacy_note">Только на устройстве. AutoSkip читает accessibility-узлы выбранных приложений YouTube. Нет разрешения Internet, модификации YouTube и действий при слабых признаках кнопки.</string>
+    <string name="version_label">Версия %1$s · Ранняя сборка</string>
     <string name="reset_stats_title">Сбросить локальную статистику?</string>
     <string name="reset_stats_message">Счётчик пропусков и оценочное время вернутся к нулю.</string>
     <string name="cancel">Отмена</string>
     <string name="reset">Сбросить</string>
 </resources>
-

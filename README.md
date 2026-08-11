@@ -1,77 +1,86 @@
-# AutoSkip
+# AutoSkip for Android
 
-Android MVP that activates YouTube's own visible **Skip / Пропустить** control through `AccessibilityService`.
+AutoSkip автоматически нажимает только штатную видимую кнопку **«Пропустить»** в YouTube и экспериментально в YouTube Music. Приложение использует Android Accessibility Service и ничего не делает, пока доступная кнопка пропуска не появилась.
 
-The app does not block unskippable ads, patch YouTube, inspect network traffic, or access an account. It intentionally does nothing unless the accessibility tree contains strong skip evidence and a visible, enabled, clickable target.
+> Ранняя версия `0.1.0`. Интерфейс YouTube меняется без предупреждения, поэтому обнаружение кнопки может временно перестать работать.
 
-## Current scope
+## Скачать
 
-- YouTube package: `com.google.android.youtube`
-- Optional experimental YouTube Music package: `com.google.android.apps.youtube.music`
-- Exact Russian and English label matching
-- Resource-ID matching with countdown/timer exclusions
-- Visibility, enabled-state, button/clickable-ancestor validation
-- Configurable 0–1 second detection delay
-- Global and per-control click cooldown
-- Local skip count and explicitly estimated saved time
-- Material 3 settings UI, dynamic color, dark theme, TalkBack labels
-- No `INTERNET` permission
+Откройте раздел [Releases](../../releases/latest) и скачайте файл `AutoSkip-<версия>-debug.apk`.
 
-## Architecture support
+APK ранних версий подписан отладочным ключом. Android может показать предупреждение об установке из неизвестного источника. Скачивайте файл только из Releases этого репозитория.
 
-The MVP contains no native `.so` libraries or NDK code. Android bytecode therefore runs from one universal APK on ARM, ARM64, x86, and x86_64 devices. ABI-specific APK splits are unnecessary until a future OCR or native image-processing module introduces native binaries.
+## Совместимость
 
-## Build
+- Android 8.0 и новее (`minSdk 26`).
+- Android 14 поддерживается конфигурацией проекта.
+- Проект собирается с Android SDK 35 и предназначен для Android 8.0–15.
+- Один APK работает на ARM, ARM64, x86 и x86_64: приложение не содержит нативных `.so`-библиотек.
+- Фактическая работа зависит от версии YouTube и доступности кнопки в Accessibility-дереве.
 
-Requirements:
+## Установка и включение
 
-- JDK 17
-- Android SDK 35
-- Gradle 8.8, supplied through the wrapper
+1. Скачайте APK из [Releases](../../releases/latest).
+2. Откройте файл на телефоне и разрешите браузеру или файловому менеджеру установку приложений из этого источника.
+3. Установите и запустите AutoSkip.
+4. Нажмите **«Открыть настройки»**.
+5. В списке установленных служб специальных возможностей выберите **«AutoSkip для YouTube»**.
+6. Прочитайте системное предупреждение и включите службу.
+7. Вернитесь в AutoSkip и включите главный переключатель.
+8. Откройте YouTube. Когда появится штатная доступная кнопка пропуска, AutoSkip попробует нажать её.
+
+Если служба не срабатывает, выключите и снова включите её после обновления AutoSkip. На некоторых оболочках Android также требуется разрешить приложению работу в фоне.
+
+## Что приложение делает
+
+- Следит только за пакетами YouTube, выбранными в настройках.
+- Ищет русские и английские подписи кнопки пропуска.
+- Проверяет видимость, доступность и кликабельность элемента.
+- Использует задержку и cooldown против повторных нажатий.
+- Хранит настройки и статистику только на устройстве.
+- Не запрашивает разрешение `INTERNET`.
+
+## Что приложение не делает
+
+- Не блокирует непропускаемую рекламу.
+- Не фильтрует трафик и не меняет APK YouTube.
+- Не получает доступ к аккаунту Google.
+- Не гарантирует совместимость с каждой версией YouTube.
+
+## Автосборка и версии
+
+Каждый push в `main` запускает тесты и сохраняет собранный APK как GitHub Actions artifact. Тег формата `v0.2.0` дополнительно создаёт публичный GitHub Release с APK.
+
+Версия задаётся в `app/build.gradle`:
+
+```groovy
+versionCode 1
+versionName "0.1.0"
+```
+
+Для следующей версии увеличьте оба значения, сделайте коммит, затем создайте тег:
+
+```powershell
+git tag v0.2.0
+git push origin main --tags
+```
+
+## Сборка из исходников
+
+Требуются JDK 17 и Android SDK 35:
 
 ```powershell
 .\gradlew.bat test assembleDebug
 ```
 
-Debug APK:
+APK появится в `app/build/outputs/apk/debug/app-debug.apk`.
 
-```text
-app/build/outputs/apk/debug/app-debug.apk
-```
+## Приватность
 
-## First run
+Accessibility-доступ чувствителен: Android позволяет службе читать элементы интерфейса выбранных приложений. AutoSkip ограничивает обработку YouTube/YouTube Music, не имеет доступа к сети и хранит данные локально. Исходный код открыт для проверки.
 
-1. Install and open AutoSkip.
-2. Tap **Open settings**.
-3. Find **AutoSkip for YouTube** under installed accessibility services.
-4. Review Android's disclosure and enable the service.
-5. Return to AutoSkip; status should become active.
-6. Open YouTube and play a video containing a skippable ad.
+Независимый проект. Не связан с Google или YouTube и не одобрен ими.
 
-If no native skip control is exposed, AutoSkip must take no action.
+## Лицензия
 
-## Privacy and policy
-
-All settings and statistics use app-local `SharedPreferences`; backups and device transfer are disabled for them. The manifest requests no Internet permission.
-
-Android Accessibility access is highly sensitive. This service is declared with `isAccessibilityTool="false"` because it is narrow UI automation, not a general assistive technology. Any store distribution must provide prominent disclosure, explicit consent, accurate Data Safety answers, and comply with the store's current Accessibility API policy. Independent project; not affiliated with or endorsed by YouTube or Google.
-
-## Verification
-
-Pure matching and cooldown logic can be checked without Android SDK:
-
-```powershell
-javac -d work/classes app/src/main/java/com/autoskip/mobile/detection/SkipTextMatcher.java app/src/main/java/com/autoskip/mobile/detection/CooldownController.java work/MatcherSmokeTest.java
-java -cp work/classes MatcherSmokeTest
-```
-
-Full unit tests run with `gradlew test`. Device behavior requires the manual matrix in [docs/TEST_MATRIX.md](docs/TEST_MATRIX.md).
-
-## Roadmap
-
-1. Validate Accessibility MVP against current YouTube releases.
-2. Add captured-tree regression fixtures and more interface languages.
-3. Evaluate screenshot/OCR fallback behind separate consent and power controls.
-4. Research network traffic classification separately; do not assume DNS blocking can distinguish ads from video delivery.
-5. Treat APK modification as a separate maintenance-heavy research project, not part of this app.
-
+[MIT](LICENSE)

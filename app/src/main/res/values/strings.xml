@@ -37,9 +37,9 @@
     <string name="duration_seconds">%1$d s</string>
 
     <string name="privacy_note">On-device only. AutoSkip reads accessibility nodes from selected YouTube apps. It has no Internet permission, does not modify YouTube, and does nothing when skip evidence is weak.</string>
+    <string name="version_label">Version %1$s · Early preview</string>
     <string name="reset_stats_title">Reset local statistics?</string>
     <string name="reset_stats_message">Skipped-control count and estimated saved time will return to zero.</string>
     <string name="cancel">Cancel</string>
     <string name="reset">Reset</string>
 </resources>
-
