@@ -158,12 +158,10 @@ public final class AutoSkipAccessibilityService extends AccessibilityService {
             return;
         }
 
-        float centerX = windowBounds.exactCenterX();
-        float startY = windowBounds.top + windowBounds.height() * 0.78f;
-        float endY = windowBounds.top + windowBounds.height() * 0.22f;
+        TikTokSwipePath.Coordinates swipe = TikTokSwipePath.inside(windowBounds);
         Path path = new Path();
-        path.moveTo(centerX, startY);
-        path.lineTo(centerX, endY);
+        path.moveTo(swipe.startX, swipe.startY);
+        path.lineTo(swipe.endX, swipe.endY);
 
         GestureDescription gesture = new GestureDescription.Builder()
                 .addStroke(new GestureDescription.StrokeDescription(path, 0L, 280L))
