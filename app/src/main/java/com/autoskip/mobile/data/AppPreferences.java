@@ -7,10 +7,12 @@ public final class AppPreferences {
     public static final String FILE_NAME = "autoskip_preferences";
     public static final String KEY_ENABLED = "auto_skip_enabled";
     public static final String KEY_YOUTUBE = "target_youtube";
-    public static final String KEY_YOUTUBE_MUSIC = "target_youtube_music";
+    public static final String KEY_TIKTOK = "target_tiktok";
     public static final String KEY_DELAY_MS = "detection_delay_ms";
+    public static final String KEY_TIKTOK_DELAY_MS = "tiktok_detection_delay_ms";
 
     public static final int DEFAULT_DELAY_MS = 200;
+    public static final int DEFAULT_TIKTOK_DELAY_MS = 500;
 
     private AppPreferences() {
     }
@@ -27,13 +29,23 @@ public final class AppPreferences {
         return preferences.getBoolean(KEY_YOUTUBE, true);
     }
 
-    public static boolean isYouTubeMusicEnabled(SharedPreferences preferences) {
-        return preferences.getBoolean(KEY_YOUTUBE_MUSIC, false);
+    public static boolean isTikTokEnabled(SharedPreferences preferences) {
+        return preferences.getBoolean(KEY_TIKTOK, false);
     }
 
     public static int detectionDelayMs(SharedPreferences preferences) {
-        int stored = preferences.getInt(KEY_DELAY_MS, DEFAULT_DELAY_MS);
+        return clampedDelay(preferences.getInt(KEY_DELAY_MS, DEFAULT_DELAY_MS));
+    }
+
+    public static int tikTokDetectionDelayMs(SharedPreferences preferences) {
+        return clampedDelay(preferences.getInt(
+                KEY_TIKTOK_DELAY_MS,
+                DEFAULT_TIKTOK_DELAY_MS
+        ));
+    }
+
+    private static int clampedDelay(int stored) {
         int clamped = Math.max(0, Math.min(1000, stored));
-        return Math.round(clamped / 200f) * 200;
+        return Math.round(clamped / 100f) * 100;
     }
 }

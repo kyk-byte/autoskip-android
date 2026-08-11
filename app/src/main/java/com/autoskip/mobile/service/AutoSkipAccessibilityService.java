@@ -1,7 +1,10 @@
 package com.autoskip.mobile.service;
 
 import android.accessibilityservice.AccessibilityService;
+import android.accessibilityservice.GestureDescription;
 import android.content.SharedPreferences;
+import android.graphics.Path;
+import android.graphics.Rect;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.SystemClock;
@@ -11,18 +14,22 @@ import android.view.accessibility.AccessibilityNodeInfo;
 import com.autoskip.mobile.data.AppPreferences;
 import com.autoskip.mobile.data.StatsRepository;
 import com.autoskip.mobile.detection.CooldownController;
+import com.autoskip.mobile.detection.AdTextMatcher;
 import com.autoskip.mobile.detection.SkipDetector;
 import com.autoskip.mobile.detection.SkipTextMatcher;
+import com.autoskip.mobile.detection.TikTokAdDetector;
 
 public final class AutoSkipAccessibilityService extends AccessibilityService {
     public static final String YOUTUBE_PACKAGE = "com.google.android.youtube";
-    public static final String YOUTUBE_MUSIC_PACKAGE = "com.google.android.apps.youtube.music";
+    public static final String TIKTOK_PACKAGE = "com.zhiliaoapp.musically";
 
     private static final long SAME_CONTROL_COOLDOWN_MS = 1_500L;
+    private static final long TIKTOK_SWIPE_COOLDOWN_MS = 3_000L;
     private static final long ESTIMATED_SAVED_PER_SKIP_MS = 5_000L;
 
     private final Handler mainHandler = new Handler(Looper.getMainLooper());
     private final SkipDetector detector = new SkipDetector(new SkipTextMatcher());
+    private final TikTokAdDetector tikTokAdDetector = new TikTokAdDetector(new AdTextMatcher());
     private final CooldownController cooldown = new CooldownController();
 
     private SharedPreferences preferences;
@@ -57,7 +64,10 @@ public final class AutoSkipAccessibilityService extends AccessibilityService {
             return;
         }
 
-        scheduleScan(packageName, AppPreferences.detectionDelayMs(preferences));
+        int delayMs = TIKTOK_PACKAGE.equals(packageName)
+                ? AppPreferences.tikTokDetectionDelayMs(preferences)
+                : AppPreferences.detectionDelayMs(preferences);
+        scheduleScan(packageName, delayMs);
     }
 
     @Override
@@ -75,8 +85,10 @@ public final class AutoSkipAccessibilityService extends AccessibilityService {
         if (YOUTUBE_PACKAGE.equals(packageName)) {
             return AppPreferences.isYouTubeEnabled(preferences);
         }
-        return YOUTUBE_MUSIC_PACKAGE.equals(packageName)
-                && AppPreferences.isYouTubeMusicEnabled(preferences);
+        if (TIKTOK_PACKAGE.equals(packageName)) {
+            return AppPreferences.isTikTokEnabled(preferences);
+        }
+        return false;
     }
 
     private void scheduleScan(String expectedPackage, int delayMs) {
@@ -85,12 +97,12 @@ public final class AutoSkipAccessibilityService extends AccessibilityService {
         }
         pendingScan = () -> {
             pendingScan = null;
-            scanAndClick(expectedPackage);
+            scanAndAct(expectedPackage);
         };
         mainHandler.postDelayed(pendingScan, delayMs);
     }
 
-    private void scanAndClick(String expectedPackage) {
+    private void scanAndAct(String expectedPackage) {
         if (!AppPreferences.isEnabled(preferences)) {
             return;
         }
@@ -99,6 +111,11 @@ public final class AutoSkipAccessibilityService extends AccessibilityService {
                 || root.getPackageName() == null
                 || !expectedPackage.contentEquals(root.getPackageName())
                 || !isEnabledTarget(expectedPackage)) {
+            return;
+        }
+
+        if (TIKTOK_PACKAGE.equals(expectedPackage)) {
+            scanAndSwipeTikTok(root);
             return;
         }
 
@@ -115,7 +132,58 @@ public final class AutoSkipAccessibilityService extends AccessibilityService {
         boolean clicked = candidate.node().performAction(AccessibilityNodeInfo.ACTION_CLICK);
         if (clicked) {
             cooldown.markClicked(candidate.fingerprint(), nowElapsedMs);
-            statsRepository.recordSkip(ESTIMATED_SAVED_PER_SKIP_MS, System.currentTimeMillis());
+            statsRepository.recordSkip(
+                    StatsRepository.Target.YOUTUBE,
+                    ESTIMATED_SAVED_PER_SKIP_MS,
+                    System.currentTimeMillis()
+            );
+        }
+    }
+
+    private void scanAndSwipeTikTok(AccessibilityNodeInfo root) {
+        TikTokAdDetector.Marker marker = tikTokAdDetector.findMarker(root);
+        if (marker == null) {
+            return;
+        }
+
+        long nowElapsedMs = SystemClock.elapsedRealtime();
+        String fingerprint = marker.fingerprint();
+        if (!cooldown.canClick(fingerprint, nowElapsedMs, TIKTOK_SWIPE_COOLDOWN_MS)) {
+            return;
+        }
+
+        Rect windowBounds = new Rect();
+        root.getBoundsInScreen(windowBounds);
+        if (windowBounds.width() < 100 || windowBounds.height() < 300) {
+            return;
+        }
+
+        float centerX = windowBounds.exactCenterX();
+        float startY = windowBounds.top + windowBounds.height() * 0.78f;
+        float endY = windowBounds.top + windowBounds.height() * 0.22f;
+        Path path = new Path();
+        path.moveTo(centerX, startY);
+        path.lineTo(centerX, endY);
+
+        GestureDescription gesture = new GestureDescription.Builder()
+                .addStroke(new GestureDescription.StrokeDescription(path, 0L, 280L))
+                .build();
+        boolean dispatched = dispatchGesture(
+                gesture,
+                new GestureResultCallback() {
+                    @Override
+                    public void onCompleted(GestureDescription gestureDescription) {
+                        statsRepository.recordSkip(
+                                StatsRepository.Target.TIKTOK,
+                                ESTIMATED_SAVED_PER_SKIP_MS,
+                                System.currentTimeMillis()
+                        );
+                    }
+                },
+                mainHandler
+        );
+        if (dispatched) {
+            cooldown.markClicked(fingerprint, nowElapsedMs);
         }
     }
 

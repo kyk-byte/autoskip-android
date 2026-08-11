@@ -2,7 +2,7 @@
 
 [English](#english) · [Русский](#русский)
 
-> Early preview `0.1.0`. YouTube can change its interface without notice, so skip detection may temporarily stop working after a YouTube update.
+> Stable download: `0.1.0`. Development branch: `0.2.0` with experimental TikTok support. YouTube and TikTok can change their interfaces without notice, so detection may temporarily stop working after an app update.
 
 ## English
 
@@ -39,7 +39,7 @@ Some Android vendors restrict background services. If AutoSkip stops after leavi
 
 ### Privacy and limitations
 
-- Monitors only selected YouTube packages.
+- Monitors only the selected YouTube and TikTok packages.
 - Matches Russian and English skip labels.
 - Checks visibility, enabled state, and clickability.
 - Stores settings and statistics only on the device.
@@ -114,8 +114,8 @@ Every push to `main` runs tests and stores an APK artifact. A tag such as `v0.2.
 Version is configured in `app/build.gradle`. Increase both values before the next release:
 
 ```groovy
-versionCode 1
-versionName "0.1.0"
+versionCode 2
+versionName "0.2.0"
 ```
 
 ## License / Лицензия

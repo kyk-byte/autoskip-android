@@ -25,7 +25,12 @@
 | YouTube backgrounded | No scan or action in other packages |
 | Main switch off | No action |
 | YouTube target off | No action in YouTube |
-| YouTube Music target off | No action in YouTube Music |
+| TikTok target off | No scan or swipe in TikTok |
+| TikTok exact `Реклама` marker at lower left | One upward swipe after TikTok delay |
+| TikTok exact `Sponsored` marker at lower left | One upward swipe after TikTok delay |
+| TikTok ad-related caption outside marker region | No swipe |
+| TikTok CTA such as `Shop now` without ad marker | No swipe |
+| TikTok repeated content event during gesture | No second swipe inside cooldown |
 | Repeated content-change storm | One pending scan; cooldown prevents repeated click |
 
 ## Regression capture
@@ -40,4 +45,3 @@ For each confirmed YouTube version, record without personal content:
 - unexpected nodes containing “skip” / “пропустить”
 
 Never store account names, video titles, recommendations, comments, or full accessibility dumps in committed fixtures.
-

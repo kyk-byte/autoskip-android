@@ -222,7 +222,7 @@
                         android:layout_height="48dp"
                         android:importantForAccessibility="no"
                         android:padding="12dp"
-                        android:src="@drawable/ic_music"
+                        android:src="@drawable/ic_short_video"
                         app:tint="?attr/colorOnSurfaceVariant" />
 
                     <LinearLayout
@@ -235,23 +235,23 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/youtube_music"
+                            android:text="@string/tiktok"
                             android:textAppearance="?attr/textAppearanceBodyLarge" />
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2dp"
-                            android:text="@string/experimental"
+                            android:text="@string/tiktok_experimental"
                             android:textAppearance="?attr/textAppearanceLabelMedium"
                             android:textColor="?attr/colorOnSurfaceVariant" />
                     </LinearLayout>
 
                     <com.google.android.material.materialswitch.MaterialSwitch
-                        android:id="@+id/youtube_music_switch"
+                        android:id="@+id/tiktok_switch"
                         android:layout_width="wrap_content"
                         android:layout_height="48dp"
-                        android:contentDescription="@string/youtube_music_target_description" />
+                        android:contentDescription="@string/tiktok_target_description" />
                 </LinearLayout>
 
                 <TextView

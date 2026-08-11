@@ -2,8 +2,8 @@
 <resources>
     <string name="app_name">AutoSkip</string>
     <string name="accessibility_service_label">AutoSkip для YouTube</string>
-    <string name="accessibility_service_description">Находит только видимые и доступные кнопки пропуска в YouTube и YouTube Music, затем нажимает штатную кнопку. Без доступа к сети и аккаунту.</string>
-    <string name="accessibility_service_summary">Нажимает доступную штатную кнопку пропуска</string>
+    <string name="accessibility_service_description">Нажимает доступные кнопки пропуска в YouTube. При отдельном включении пролистывает TikTok только после обнаружения точной рекламной метки. Без доступа к сети и аккаунту.</string>
+    <string name="accessibility_service_summary">Пропускает уверенно распознанную рекламу в выбранных приложениях</string>
 
     <string name="status_access_required">Нужен доступ Accessibility</string>
     <string name="status_access_required_description">Включите AutoSkip в системных настройках специальных возможностей.</string>
@@ -19,10 +19,10 @@
     <string name="enable_auto_skip_description">Действовать только при видимой и доступной кнопке пропуска.</string>
     <string name="target_apps_heading">Целевые приложения</string>
     <string name="youtube">YouTube</string>
-    <string name="youtube_music">YouTube Music</string>
-    <string name="experimental">Экспериментальная цель</string>
+    <string name="tiktok">TikTok</string>
+    <string name="tiktok_experimental">Экспериментально · только точные рекламные метки</string>
     <string name="youtube_target_description">Отслеживать YouTube</string>
-    <string name="youtube_music_target_description">Отслеживать YouTube Music</string>
+    <string name="tiktok_target_description">Пролистывать уверенно распознанную рекламу TikTok</string>
 
     <string name="timing_heading">Тайминг</string>
     <string name="detection_delay">Задержка обнаружения</string>
@@ -36,7 +36,7 @@
     <string name="duration_minutes_seconds">%1$d мин %2$d с</string>
     <string name="duration_seconds">%1$d с</string>
 
-    <string name="privacy_note">Только на устройстве. AutoSkip читает accessibility-узлы выбранных приложений YouTube. Нет разрешения Internet, модификации YouTube и действий при слабых признаках кнопки.</string>
+    <string name="privacy_note">Только на устройстве. AutoSkip читает accessibility-узлы выбранных приложений. Нет разрешения Internet, модификации приложений и действий при слабых признаках рекламы.</string>
     <string name="version_label">Версия %1$s · Ранняя сборка</string>
     <string name="reset_stats_title">Сбросить локальную статистику?</string>
     <string name="reset_stats_message">Счётчик пропусков и оценочное время вернутся к нулю.</string>

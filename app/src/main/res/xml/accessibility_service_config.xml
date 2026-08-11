@@ -3,11 +3,11 @@
     android:accessibilityEventTypes="typeWindowStateChanged|typeWindowContentChanged|typeWindowsChanged"
     android:accessibilityFeedbackType="feedbackGeneric"
     android:accessibilityFlags="flagDefault|flagReportViewIds|flagRetrieveInteractiveWindows"
+    android:canPerformGestures="true"
     android:canRetrieveWindowContent="true"
     android:description="@string/accessibility_service_description"
     android:isAccessibilityTool="false"
     android:notificationTimeout="120"
-    android:packageNames="com.google.android.youtube,com.google.android.apps.youtube.music"
+    android:packageNames="com.google.android.youtube,com.zhiliaoapp.musically"
     android:settingsActivity="com.autoskip.mobile.MainActivity"
     android:summary="@string/accessibility_service_summary" />
-

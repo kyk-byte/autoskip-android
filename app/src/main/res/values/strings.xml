@@ -2,8 +2,8 @@
 <resources>
     <string name="app_name">AutoSkip</string>
     <string name="accessibility_service_label">AutoSkip for YouTube</string>
-    <string name="accessibility_service_description">Detects visible, enabled skip controls only in YouTube and YouTube Music, then activates the native control. No network or account access.</string>
-    <string name="accessibility_service_summary">Activates an available native skip control</string>
+    <string name="accessibility_service_description">Activates available skip controls in YouTube. When enabled separately, swipes past TikTok videos only after detecting an exact ad label. No network or account access.</string>
+    <string name="accessibility_service_summary">Skips strongly identified ads in selected apps</string>
 
     <string name="status_access_required">Accessibility access required</string>
     <string name="status_access_required_description">Enable AutoSkip in Android Accessibility settings.</string>
@@ -19,10 +19,10 @@
     <string name="enable_auto_skip_description">Act only when a visible skip control is available.</string>
     <string name="target_apps_heading">Target apps</string>
     <string name="youtube">YouTube</string>
-    <string name="youtube_music">YouTube Music</string>
-    <string name="experimental">Experimental target</string>
+    <string name="tiktok">TikTok</string>
+    <string name="tiktok_experimental">Experimental · exact ad labels only</string>
     <string name="youtube_target_description">Monitor YouTube</string>
-    <string name="youtube_music_target_description">Monitor YouTube Music</string>
+    <string name="tiktok_target_description">Swipe past strongly identified TikTok ads</string>
 
     <string name="timing_heading">Timing</string>
     <string name="detection_delay">Detection delay</string>
@@ -36,7 +36,7 @@
     <string name="duration_minutes_seconds">%1$d m %2$d s</string>
     <string name="duration_seconds">%1$d s</string>
 
-    <string name="privacy_note">On-device only. AutoSkip reads accessibility nodes from selected YouTube apps. It has no Internet permission, does not modify YouTube, and does nothing when skip evidence is weak.</string>
+    <string name="privacy_note">On-device only. AutoSkip reads accessibility nodes from selected apps. It has no Internet permission, does not modify them, and does nothing when skip evidence is weak.</string>
     <string name="version_label">Version %1$s · Early preview</string>
     <string name="reset_stats_title">Reset local statistics?</string>
     <string name="reset_stats_message">Skipped-control count and estimated saved time will return to zero.</string>

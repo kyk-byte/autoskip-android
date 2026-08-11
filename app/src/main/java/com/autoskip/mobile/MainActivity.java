@@ -101,9 +101,9 @@ public final class MainActivity extends AppCompatActivity
                 preferences.edit().putBoolean(AppPreferences.KEY_YOUTUBE, checked).apply();
             }
         });
-        binding.youtubeMusicSwitch.setOnCheckedChangeListener((button, checked) -> {
+        binding.tiktokSwitch.setOnCheckedChangeListener((button, checked) -> {
             if (!rendering) {
-                preferences.edit().putBoolean(AppPreferences.KEY_YOUTUBE_MUSIC, checked).apply();
+                preferences.edit().putBoolean(AppPreferences.KEY_TIKTOK, checked).apply();
             }
         });
         binding.delaySlider.addOnChangeListener((slider, value, fromUser) -> {
@@ -121,7 +121,7 @@ public final class MainActivity extends AppCompatActivity
         rendering = true;
         binding.autoSkipSwitch.setChecked(AppPreferences.isEnabled(preferences));
         binding.youtubeSwitch.setChecked(AppPreferences.isYouTubeEnabled(preferences));
-        binding.youtubeMusicSwitch.setChecked(AppPreferences.isYouTubeMusicEnabled(preferences));
+        binding.tiktokSwitch.setChecked(AppPreferences.isTikTokEnabled(preferences));
 
         int delayMs = AppPreferences.detectionDelayMs(preferences);
         binding.delaySlider.setValue(delayMs);
