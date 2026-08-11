@@ -1,0 +1,51 @@
+name: Android build
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Test and build APK
+        run: ./gradlew test assembleDebug
+
+      - name: Name APK
+        shell: bash
+        run: |
+          VERSION=$(grep -oP 'versionName\s+"\K[^"]+' app/build.gradle)
+          cp app/build/outputs/apk/debug/app-debug.apk "AutoSkip-${VERSION}-debug.apk"
+          echo "APK_NAME=AutoSkip-${VERSION}-debug.apk" >> "$GITHUB_ENV"
+
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: autoskip-apk
+          path: ${{ env.APK_NAME }}
+
+      - name: Publish tagged release
+        if: startsWith(github.ref, 'refs/tags/v')
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "${GITHUB_REF_NAME}" "${APK_NAME}" --generate-notes --title "AutoSkip ${GITHUB_REF_NAME}"
