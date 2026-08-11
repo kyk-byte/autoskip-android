@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">AutoSkip</string>
+    <string name="accessibility_service_label">AutoSkip for YouTube</string>
+    <string name="accessibility_service_description">Detects visible, enabled skip controls only in YouTube and YouTube Music, then activates the native control. No network or account access.</string>
+    <string name="accessibility_service_summary">Activates an available native skip control</string>
+
+    <string name="status_access_required">Accessibility access required</string>
+    <string name="status_access_required_description">Enable AutoSkip in Android Accessibility settings.</string>
+    <string name="status_paused">AutoSkip is paused</string>
+    <string name="status_paused_description">Access is granted. Turn on the main switch to resume.</string>
+    <string name="status_active">AutoSkip is active</string>
+    <string name="status_active_description">Watching selected YouTube apps for a safe skip control.</string>
+    <string name="open_accessibility_settings">Open settings</string>
+    <string name="review_accessibility_access">Review access</string>
+
+    <string name="automation_heading">Automation</string>
+    <string name="enable_auto_skip">Enable Auto Skip</string>
+    <string name="enable_auto_skip_description">Act only when a visible skip control is available.</string>
+    <string name="target_apps_heading">Target apps</string>
+    <string name="youtube">YouTube</string>
+    <string name="youtube_music">YouTube Music</string>
+    <string name="experimental">Experimental target</string>
+    <string name="youtube_target_description">Monitor YouTube</string>
+    <string name="youtube_music_target_description">Monitor YouTube Music</string>
+
+    <string name="timing_heading">Timing</string>
+    <string name="detection_delay">Detection delay</string>
+    <string name="detection_delay_description">A short delay lets YouTube finish enabling its native button. Cooldown prevents repeated taps.</string>
+    <string name="delay_value_seconds">%.1f s</string>
+
+    <string name="statistics_heading">Local statistics</string>
+    <string name="skipped_ads">Skipped controls</string>
+    <string name="estimated_time_saved">Estimated time saved</string>
+    <string name="reset_statistics">Reset statistics</string>
+    <string name="duration_minutes_seconds">%1$d m %2$d s</string>
+    <string name="duration_seconds">%1$d s</string>
+
+    <string name="privacy_note">On-device only. AutoSkip reads accessibility nodes from selected YouTube apps. It has no Internet permission, does not modify YouTube, and does nothing when skip evidence is weak.</string>
+    <string name="reset_stats_title">Reset local statistics?</string>
+    <string name="reset_stats_message">Skipped-control count and estimated saved time will return to zero.</string>
+    <string name="cancel">Cancel</string>
+    <string name="reset">Reset</string>
+</resources>
+

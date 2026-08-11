@@ -1,0 +1,2 @@
+// Isolated build used only to generate Gradle wrapper files without resolving Android plugins.
+
